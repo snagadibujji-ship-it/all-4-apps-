@@ -44,6 +44,14 @@ export function setAuthTokenGetter(getter: AuthTokenGetter | null): void {
   _authTokenGetter = getter;
 }
 
+// Auto-wire localStorage token
+setAuthTokenGetter(() => {
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem('localmart_token');
+  }
+  return null;
+});
+
 function isRequest(input: RequestInfo | URL): input is Request {
   return typeof Request !== "undefined" && input instanceof Request;
 }
